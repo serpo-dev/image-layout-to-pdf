@@ -31,7 +31,7 @@
 
 4. Запустите скрипт:
    ```bash
-   python script.py
+   python combine.py
    ```
 
 5. PDF-файл будет сохранен под именем `output.pdf`.
