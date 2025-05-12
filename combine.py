@@ -2,6 +2,7 @@ import os
 from PIL import Image, ImageDraw
 from tqdm import tqdm
 from math import ceil
+from natsort import natsorted
 
 # ПАРАМЕТРЫ
 DPI = 365
@@ -31,12 +32,15 @@ PAGE_HEIGHT_PX = int(page_height_cm * DPI / 2.54)
 CONTENT_WIDTH_PX = PAGE_WIDTH_PX - 2 * MARGIN_PX
 CONTENT_HEIGHT_PX = PAGE_HEIGHT_PX - 2 * MARGIN_PX
 
-images = []
 
-for file in os.listdir('.'):
-    if file.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif', '.tiff')):
-        img = Image.open(file).convert("RGB")
-        images.append((file, img))
+image_files = [file for file in os.listdir('.') if file.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif', '.tiff'))]
+image_files = natsorted(image_files)  # Естественная сортировка названий файлов
+
+
+images = []
+for file in image_files:
+    img = Image.open(file).convert("RGB")
+    images.append((file, img))
 
 placed_images = []
 current_page = Image.new("RGB", (PAGE_WIDTH_PX, PAGE_HEIGHT_PX), "white")
